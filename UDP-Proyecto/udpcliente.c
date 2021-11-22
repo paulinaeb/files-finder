@@ -10,7 +10,7 @@
 #include "headers/ClienteUDP.h"
 #define PORT 2002
 #define MAXLINE 1024
-
+#define IP_SERVER "127.0.0.1"
 // Driver code
 int main()
 {
@@ -40,7 +40,7 @@ int main()
 		// Filling server information
 		servaddr.sin_family = AF_INET;
 		servaddr.sin_port = htons(PORT);
-		servaddr.sin_addr.s_addr = INADDR_ANY;
+		servaddr.sin_addr.s_addr = inet_addr(IP_SERVER);
 
 		// Peticion peticion;
 		int n_address = 0;
@@ -63,7 +63,7 @@ int main()
 		// fgets(peticion.message, sizeof(peticion.message), stdin);
 		fgets(test, 255, stdin);
 
-		int n, len;
+		socklen_t n, len;
 
 		//SERIALIZACION PENDIENTE PARA VARIAS COMPUTADORAS
 
@@ -82,10 +82,10 @@ int main()
 		buffer[n] = '\0';
 		printf("Server response: \n%s\n", buffer);
 
-		// if (strncmp(test, "exit", 4) == 0)
-		// {
-		// 	break;
-		// }
+		if (strncmp(test, "exit", 4) == 0)
+		{
+			break;
+		}
 
 		close(sockfd);
 	}

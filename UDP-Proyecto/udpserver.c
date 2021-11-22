@@ -11,10 +11,10 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "headers/Finder.h"
+#include"headers/Finder.h"
 
-#define TAMANO 1024
 #define PORT 2002
+#define TAMANO 1024
 void error_fatal(char *msg)
 {
     perror(msg);
@@ -22,12 +22,14 @@ void error_fatal(char *msg)
 }
 int main()
 {
-    int sock, length, fromlen, n;
+    int sock;
     struct sockaddr_in server;
     struct sockaddr_in from;
+    socklen_t length,fromlen,n;
     char buffer[TAMANO];
 
     /* (1) creacion del socket del servidor*/
+
     sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock < 0)
         error_fatal("Creando el socket");
@@ -36,11 +38,10 @@ int main()
     /* (2) vinculo la direccion IP y puerto local al socket creado anteriormente */
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
-    
     server.sin_port = htons(PORT);
     if (bind(sock, (struct sockaddr *)&server, length) < 0)
         error_fatal("binding");
-    fromlen = sizeof(struct sockaddr_in);
+    fromlen = sizeof(from);
     /* (3) bucle principal. Pongo a recibir y responder mensajes a traves del socket*/
     while (1)
     {
@@ -51,12 +52,10 @@ int main()
         buffer[n] = '\0'; /* para poder imprimirlo con prinft*/
         printf("Recibido en el servidor: %s", buffer);
         /*enviar respuesta*/
-        // printf("%s",buffer);
-        char *query = gfind(buffer);
-        // printf("%s",query);
-        n = sendto(sock, (const char *)query, strlen(query),
-                   MSG_CONFIRM, (struct sockaddr *)&from, fromlen);
+        char* query = gfind(buffer);
+        n = sendto(sock,query,strlen(query),0, (struct sockaddr *)&from, fromlen);
         if (n < 0)
             error_fatal("sendto");
     }
+
 }
