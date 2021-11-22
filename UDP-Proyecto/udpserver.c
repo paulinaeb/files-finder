@@ -11,7 +11,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include"headers/Finder.h"
+#include "headers/Finder.h"
 
 #define PORT 2002
 #define TAMANO 1024
@@ -25,7 +25,7 @@ int main()
     int sock;
     struct sockaddr_in server;
     struct sockaddr_in from;
-    socklen_t length,fromlen,n;
+    socklen_t length, fromlen, n;
     char buffer[TAMANO];
 
     /* (1) creacion del socket del servidor*/
@@ -48,14 +48,15 @@ int main()
         n = recvfrom(sock, buffer, TAMANO, 0, (struct sockaddr *)&from, &fromlen);
         if (n < 0)
             error_fatal("recvfrom");
+
         /*datagrama recibido*/
         buffer[n] = '\0'; /* para poder imprimirlo con prinft*/
         printf("Recibido en el servidor: %s", buffer);
+        
         /*enviar respuesta*/
-        char* query = gfind(buffer);
-        n = sendto(sock,query,strlen(query),0, (struct sockaddr *)&from, fromlen);
+        char *query = gfind(buffer);
+        n = sendto(sock, query, strlen(query), 0, (struct sockaddr *)&from, fromlen);
         if (n < 0)
             error_fatal("sendto");
     }
-
 }

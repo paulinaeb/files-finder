@@ -14,26 +14,21 @@
 // Driver code
 int main()
 {
-
-
 	while (1)
 	{
 
-	int sockfd;
-	// char *buffer;
-	char buffer[MAXLINE];
-	// char *hello = "Hello from client";
-	struct sockaddr_in servaddr;
+		int sockfd;
+		// char *buffer;
+		char buffer[MAXLINE];
+		// char *hello = "Hello from client";
+		struct sockaddr_in servaddr;
 
-
-	// Creating socket file descriptor
-	if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-	{
-		perror("socket creation failed");
-		exit(EXIT_FAILURE);
-	}
-
-
+		// Creating socket file descriptor
+		if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+		{
+			perror("socket creation failed");
+			exit(EXIT_FAILURE);
+		}
 
 		memset(&servaddr, 0, sizeof(servaddr));
 
@@ -84,9 +79,8 @@ int main()
 
 		if (strncmp(test, "exit", 4) == 0)
 		{
+			close(sockfd);
 			break;
 		}
-
-		close(sockfd);
 	}
 }
