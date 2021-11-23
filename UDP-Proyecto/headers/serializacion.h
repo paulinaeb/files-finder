@@ -1,5 +1,5 @@
-#ifndef CLIENTEUDP_H
-#define CLIENTEUDP_H
+#ifndef SERIALIZACION_H
+#define SERIALIZACION_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -51,11 +51,11 @@ Peticion desSerializacionMessage(){
     
 }
 
-// void print(Peticion peticion){
-//     printf("Mensaje: %s\n",peticion.message);
-//     for(int i = 0 ; i < peticion.n_address ; i++){
-//         printf("address: %s\n",peticion.address[i]);
-//     }
-// }   
+void print(Peticion peticion){
+    printf("Mensaje: %s\n",peticion.message);
+    for(int i = 0 ; i < peticion.n_address ; i++){
+        printf("address: %s\n",peticion.address[i]);
+    }
+}   
 
 #endif

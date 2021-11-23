@@ -1,41 +1,37 @@
 // Client side implementation of UDP client-server model
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <unistd.h>
-// #include <string.h>
-// #include <sys/types.h>
-// #include <sys/socket.h>
-// #include <arpa/inet.h>
-// #include <netinet/in.h>
-#include "headers/ClienteUDP.h"
-#define PORT 2002
+#ifndef UDPCLIENTE_H
+#define UDPCLIENTE_H
+#include "serializacion.h"
 #define MAXLINE 1024
+// #define PORT 2002
 #define IP_SERVER "127.0.0.1"
 // Driver code
-int main()
+
+void client(int PORT)
 {
+
+	int sockfd;
+	// char *buffer;
+	char buffer[MAXLINE];
+	// char *hello = "Hello from client";
+	struct sockaddr_in servaddr;
+
+	// Creating socket file descriptor
+	if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+	{
+		perror("socket creation failed");
+		exit(EXIT_FAILURE);
+	}
+
+	memset(&servaddr, 0, sizeof(servaddr));
+
+	// Filling server information
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons(PORT);
+	servaddr.sin_addr.s_addr = inet_addr(IP_SERVER);
+
 	while (1)
 	{
-
-		int sockfd;
-		// char *buffer;
-		char buffer[MAXLINE];
-		// char *hello = "Hello from client";
-		struct sockaddr_in servaddr;
-
-		// Creating socket file descriptor
-		if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		{
-			perror("socket creation failed");
-			exit(EXIT_FAILURE);
-		}
-
-		memset(&servaddr, 0, sizeof(servaddr));
-
-		// Filling server information
-		servaddr.sin_family = AF_INET;
-		servaddr.sin_port = htons(PORT);
-		servaddr.sin_addr.s_addr = inet_addr(IP_SERVER);
 
 		// Peticion peticion;
 		int n_address = 0;
@@ -53,7 +49,7 @@ int main()
 		// 	n_address++;
 		// }
 		// peticion.n_address = n_address;
-
+		cleanBuffer();
 		printf("Ingresa el nombre de el archivo/carpeta que deseas buscar: ");
 		// fgets(peticion.message, sizeof(peticion.message), stdin);
 		fgets(test, 255, stdin);
@@ -84,3 +80,5 @@ int main()
 		}
 	}
 }
+
+#endif
