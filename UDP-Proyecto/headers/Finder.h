@@ -38,37 +38,6 @@ int fsize(char *filename)
 
 /**
  * @brief 
- * @descripcion: Esta funcion permite mostrar el archivo en un solo texto
- * @param archivo 
- * @param texto1 
- */
-
-
-void fshow(char *filename, char *text)
-{
-    FILE *fp;
-    char aux[fsize(filename)], aux1[fsize(filename)];
-    if ((fp = popen(filename, "r")) == NULL)
-    {
-        fprintf(stderr, "fshow: no se pudo abrir %s\n", filename);
-        exit(1);
-    }
-    do
-    {
-        fgets(aux1,fsize(filename), fp);
-        if (strcmp(aux, aux1) == 0)
-        {
-            strcpy(aux, aux1);
-            strcat(text, aux);
-        }
-    
-    } while (!feof(fp));
-
-    pclose(fp);
-}
-
-/**
- * @brief 
  * @description: esta funcion retorna el archivo completo de las rutas de los archivos en la pc
  * @param input 
  * @return char* 

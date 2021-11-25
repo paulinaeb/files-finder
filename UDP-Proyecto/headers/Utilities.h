@@ -25,7 +25,6 @@ typedef struct conexion
   char message[255];
 } Conexion;
 
-
 Direccion *newDireccion(char *address)
 {
   Direccion *ptr = (Direccion *)malloc(sizeof(Direccion));
@@ -48,8 +47,6 @@ Direccion *addDireccion(Direccion *listp, Direccion *newp)
   return listp;
 }
 
-
-
 int cleanBuffer()
 {
   int fdflags;
@@ -60,12 +57,11 @@ int cleanBuffer()
   fcntl(STDIN_FILENO, F_SETFL, fdflags);
 }
 
-
 void pausa()
 {
-    while (getchar() != '\n')
-        ;
+  
+  while (getchar() != '\n')
+    ;
 }
-
 
 #endif
