@@ -62,11 +62,11 @@ void server(int PORT)
         /*datagrama recibido*/
         buffer[n] = '\0'; /* para poder imprimirlo con prinft*/
         printf("Recibido en el servidor: %s", buffer);
-
+        
         /*enviar respuesta*/
         char *query = gfind(buffer);
         n = sendto(sock, query, strlen(query), 0, (struct sockaddr *)&from, fromlen);
-
+        // n = sendto(sock, buffer, strlen(buffer), 0, (struct sockaddr *)&from, fromlen);
         // if (strncmp(buffer, "exit", 4) == 0)
         // {
         //     close(sock);

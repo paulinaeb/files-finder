@@ -1,19 +1,16 @@
 // Client side implementation of UDP client-server model
 #ifndef UDPCLIENTE_H
 #define UDPCLIENTE_H
-#include "serializacion.h"
+#include "Utilities.h"
 #define MAXLINE 1024
-// #define PORT 2002
-#define IP_SERVER "127.0.0.1"
+// #define IP_SERVER "127.0.0.1"
 // Driver code
 
-void client(int PORT)
+// void client(int PORT,char* IP_SERVER)
+void *client(void *args)
 {
-
+	Conexion *conexion = (Conexion *)args;
 	int sockfd;
-	// char *buffer;
-	char buffer[MAXLINE];
-	// char *hello = "Hello from client";
 	struct sockaddr_in servaddr;
 
 	// Creating socket file descriptor
@@ -27,42 +24,23 @@ void client(int PORT)
 
 	// Filling server information
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(PORT);
-	servaddr.sin_addr.s_addr = inet_addr(IP_SERVER);
+	servaddr.sin_port = htons(conexion->PORT);
+	servaddr.sin_addr.s_addr = inet_addr(conexion->IP_SERVER);
 
-	while (1)
-	{
-
-		// Peticion peticion;
-		int n_address = 0;
-		int decision = 0;
-		char test[255];
-		// while (decision != 2)
-		// {
-
-		// 	printf("Ingresa la direccion: ");
-		// 	fgets(peticion.address[n_address], sizeof(peticion.address), stdin);
-		// 	cleanBuffer();
-		// 	printf("Desea agregar otra direccion?  [1. si , 2.no] :");
-		// 	scanf("%d", &decision);
-		// 	cleanBuffer();
-		// 	n_address++;
-		// }
-		// peticion.n_address = n_address;
-		cleanBuffer();
-		printf("Ingresa el nombre de el archivo/carpeta que deseas buscar: ");
-		// fgets(peticion.message, sizeof(peticion.message), stdin);
-		fgets(test, 255, stdin);
+	// while (1)
+	// {
+		char buffer[MAXLINE];
+		// char test[MAXLINE];
+		// char *instruction;
+		// cleanBuffer();
+		// printf("Ingresa el nombre de el archivo/carpeta que deseas buscar: ");
+		// fgets(test, sizeof(test), stdin);
+		// instruction = (char *)malloc(sizeof(test) * strlen(test));
+		// strcat(instruction, test);
 
 		socklen_t n, len;
 
-		//SERIALIZACION PENDIENTE PARA VARIAS COMPUTADORAS
-
-		// sendto(sockfd, (const char *)serializationMessage(peticion), strlen(serializationMessage(peticion)),
-		// 	   MSG_CONFIRM, (const struct sockaddr *)&servaddr,
-		// 	   sizeof(servaddr));
-
-		sendto(sockfd, (const char *)test, strlen(test),
+		sendto(sockfd, (const char *)conexion->message, strlen(conexion->message),
 			   MSG_CONFIRM, (const struct sockaddr *)&servaddr,
 			   sizeof(servaddr));
 		printf("message sent.\n");
@@ -71,14 +49,26 @@ void client(int PORT)
 					 MSG_WAITALL, (struct sockaddr *)&servaddr,
 					 &len);
 		buffer[n] = '\0';
-		printf("Server response: \n%s\n", buffer);
-
-		if (strncmp(test, "exit", 4) == 0)
-		{
+		
+		printf("Server %s response: \n%s\n",conexion->IP_SERVER,buffer);
+		
+		// if (strncmp(conexion->message, "exit", 4) == 0)
+		// {
 			close(sockfd);
-			break;
-		}
-	}
+	// 		break;
+	// 	}
+	// }
+}
+
+void runClient(int port, char *address)
+{
+	Conexion conexion;
+
+	pthread_t hilo;
+	conexion.PORT = port;
+	strcpy(conexion.IP_SERVER, address);
+	pthread_create(&hilo, NULL, client, (void *)&conexion);
+	pthread_join(hilo,NULL);
 }
 
 #endif

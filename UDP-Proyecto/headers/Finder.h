@@ -77,7 +77,7 @@ void fshow(char *filename, char *text)
 char *gfind(char *input)
 {
     char *FIND = "find /home -iname ";
-    char *query = (char *)malloc(sizeof(FIND) * sizeof(input) + 1);
+    char *query = (char *)malloc(sizeof(input) * sizeof(input) + 1);
     strcat(query, FIND);
     strcat(query, input);
     out = malloc(sizeof(char) * fsize(query));
