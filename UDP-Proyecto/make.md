@@ -11,7 +11,7 @@ gcc main.c -o [nombre archivo] -l pthread
 
 #ejemplo
 
-gcc main.c -o main
+gcc main.c -o main -l pthread
 ./main
 
 
