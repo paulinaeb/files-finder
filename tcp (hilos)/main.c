@@ -4,7 +4,7 @@
 /*************************************************************************************/
 
 //headers
-#include "headers/tcp_thread_server.h"
+#include "headers/tcp_process_server.h"
 #include "headers/tcp_thread_client.h"
 #include "headers/utilities.h"
 
@@ -59,7 +59,7 @@ int main(){
         // servidor    
         case 1:
             port=getPort();
-            runServer_tcp_t(port);
+            runServer_tcp_p(port);
             break;
         
         // cliente
