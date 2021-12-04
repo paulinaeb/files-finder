@@ -31,18 +31,13 @@
 #define BUF_SIZE    500    // tamaño del buffer de recepcion y transmision de datos  
 #define BACKLOG     5      // cola de espera de clientes
 
-
 void *connection_handler(void *par){
-
-    int connfd = *((int*)par.connfd); 
-    char ip_client[20];
-    strcpy(ip_client, (char *)&par.ip);
 
     int  len_rx = 0;                            // Tamaño de lo recibido y enviado, en bytes
     char buff_tx[BUF_SIZE], buff_rx[BUF_SIZE];  // Buffer de trasnmision (tx) y recepcion (rx)
      
     // recibe la consulta en el buffer de recepcion	- read()	          
-    len_rx = read(connfd, buff_rx, sizeof(buff_rx));  
+    len_rx = read(par->connfd, buff_rx, sizeof(buff_rx));  
         
     if(len_rx == -1){
         fprintf(stderr, "[SERVER-error]: connfd cannot be read. %d: %s \n", errno, strerror( errno ));
@@ -54,10 +49,10 @@ void *connection_handler(void *par){
         char *buff_tx = gfind(buff_rx);	              
 	    
         buff_rx[strlen(buff_rx)-1] = '\0';             
-        printf("[CLIENT %s]: Search for \"%s\"\n",ip_client,buff_rx);
+        printf("[CLIENT %s]: Search for \"%s\"\n",par->ip,buff_rx);
 
         // envia respuesta - write()
-        write(connfd, buff_tx, strlen(buff_tx));     
+        write(par->connfd, buff_tx, strlen(buff_tx));     
 
         // imprime respuesta
         printf("[SERVER]: Results from \"%s\"\n",buff_rx);
@@ -65,7 +60,7 @@ void *connection_handler(void *par){
 
         // cerramos el socket con el cliente - close()
         printf("[SERVER]: socket closed \n\n");
-        close(connfd);
+        close(par->connfd);
     }  
 }
 
@@ -127,13 +122,16 @@ void runServer_tcp_t(int PORT){
         else{
 
             // estructura con los parametros para el manejador de conexiones
-            Ip_connfd parametros;
-            strcpy(parametros.ip, (char *)&client.sin_addr.s_addr);
-            *parametros.connfd = connfd;
+            struct Ip_connfd *parametros = malloc(sizeof(struct Ip_connfd));
+
+            strcpy(parametros->ip, (char *)&client.sin_addr.s_addr);
+            parametros->connfd = connfd;
+
+            printf("direccion ip ->%s , cnnfd ->%i\n", parametros.ip, parametros.connfd );
 
             // manejador de conexiones    
             pthread_t hilo;
-            pthread_create(&hilo, NULL, connection_handler, (void *)&parametros);                                         
+            pthread_create(&hilo, NULL, connection_handler, parametros);                                         
         }                  
     }  
 }
