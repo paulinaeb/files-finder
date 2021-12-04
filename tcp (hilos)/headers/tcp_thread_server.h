@@ -34,13 +34,15 @@
 
 void *connection_handler(void *par){
 
-    Ip_connfd *parametros = (Ip_connfd *) par;
+    int connfd = *((int*)par.connfd); 
+    char ip_client[20];
+    strcpy(ip_client, (char *)&par.ip);
 
     int  len_rx = 0;                            // Tamaño de lo recibido y enviado, en bytes
     char buff_tx[BUF_SIZE], buff_rx[BUF_SIZE];  // Buffer de trasnmision (tx) y recepcion (rx)
      
     // recibe la consulta en el buffer de recepcion	- read()	          
-    len_rx = read(parametros->connfd, buff_rx, sizeof(buff_rx));  
+    len_rx = read(connfd, buff_rx, sizeof(buff_rx));  
         
     if(len_rx == -1){
         fprintf(stderr, "[SERVER-error]: connfd cannot be read. %d: %s \n", errno, strerror( errno ));
@@ -52,10 +54,10 @@ void *connection_handler(void *par){
         char *buff_tx = gfind(buff_rx);	              
 	    
         buff_rx[strlen(buff_rx)-1] = '\0';             
-        printf("[CLIENT %s]: Search for \"%s\"\n",parametros->ip,buff_rx);
+        printf("[CLIENT %s]: Search for \"%s\"\n",ip_client,buff_rx);
 
         // envia respuesta - write()
-        write(parametros->connfd, buff_tx, strlen(buff_tx));     
+        write(connfd, buff_tx, strlen(buff_tx));     
 
         // imprime respuesta
         printf("[SERVER]: Results from \"%s\"\n",buff_rx);
@@ -63,7 +65,7 @@ void *connection_handler(void *par){
 
         // cerramos el socket con el cliente - close()
         printf("[SERVER]: socket closed \n\n");
-        close(parametros->connfd);
+        close(connfd);
     }  
 }
 
@@ -126,8 +128,8 @@ void runServer_tcp_t(int PORT){
 
             // estructura con los parametros para el manejador de conexiones
             Ip_connfd parametros;
-            strcpy(parametros.ip, client.sin_addr.s_addr);
-            parametros.connfd = connfd;
+            strcpy(parametros.ip, (char *)&client.sin_addr.s_addr);
+            *parametros.connfd = connfd;
 
             // manejador de conexiones    
             pthread_t hilo;

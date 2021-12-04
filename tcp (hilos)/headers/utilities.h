@@ -13,12 +13,12 @@
 #include <stdio_ext.h>
 #include <fcntl.h>
 
-#define MAX_CHAR 15
+#define MAX_CHAR 20
 
 //Estructura para poder enviar la direcciones IP del cliente y el connfd a la funcion "connection_handler"
 typedef struct ip_connfd{
   char    ip[MAX_CHAR];
-  int     connfd;
+  int     *connfd;
 } Ip_connfd;
 
 //Estructura para direcciones IP de servidores
