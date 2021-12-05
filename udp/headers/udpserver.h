@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "Finder.h"
+#include "finder.h"
 
 // #define PORT 2002
 #define TAMANO 1024
