@@ -52,14 +52,15 @@ void *client_tcp_t(void *args){
     servaddr.sin_family      = AF_INET;
     servaddr.sin_addr.s_addr = inet_addr(conexion->IP_SERVER);
     servaddr.sin_port        = htons(conexion->PORT);
-    
+    printf("ip: %d",servaddr.sin_addr.s_addr);
     if (connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) != 0){ 
         printf("[SERVER-error] connection with the server failed\n");  
         pausa();
         return NULL;
     } 
     else{
-    	printf("[CLIENT]: connected to SERVER %s\n",conexion->IP_SERVER);    
+    	printf("[CLIENT]: connected to SERVER %s\n",conexion->IP_SERVER); 
+           
     }
 
    

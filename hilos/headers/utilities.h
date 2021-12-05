@@ -69,6 +69,7 @@ void pausa(){
 	char enter = 0;
 	while(getchar()!='\n'); // option TWO to clean stdin
         getchar(); // wait for ENTER
+  
 }
 
 #endif
