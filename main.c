@@ -21,19 +21,20 @@ int mainMenu(){
     printf("*******************************************\n");
     printf("\nSelecciona una opcion\n\n");
     printf("\n-->Conexion TCP\n\n");
-    printf("(1) SERVIDOR (Hilos) \n(2) SERVIDOR (Procesos)\n(3) CLIENTE \n");
+    printf("(1) SERVIDOR (Hilos) \n(2) CLIENTE (Hilos)\n(3) SERVIDOR (Procesos)\n(4) CLIENTE (Procesos)\n");
     printf("\n-->Conexion UDP\n\n");
-    printf("(4) SERVIDOR \n(5) CLIENTE \n(6) CAMBIAR PUERTO ACTUAL (%d)\n\n\n(7) AYUDA\n(8) SALIR\n\n",port);
+    printf("(5) SERVIDOR \n(6) CLIENTE \n\n\n(7) AYUDA\n(8) SALIR\n\n");
     printf("Opcion: ");
     scanf("%d", &input);          
     return input;
 }
 
 //Seleccion de puerto
-void getPort(){
+void getPort(int static_port){
     char decition = ' ';
     int resp = 0;
-    printf("Puerto actual: %d\nDeseas cambiar el puerto? s/n ", port);
+    port = static_port;
+    printf("Puerto actual: %d\nDeseas cambiar el puerto? s/n ", static_port);
     scanf(" %c", &decition);
     if (decition == 's' || decition == 'S'){
         printf("Ingresa el puerto que quiere utilizar: ");
@@ -41,6 +42,7 @@ void getPort(){
         port=resp; 
     }  
 }
+
 
 int main(){ 
 
@@ -54,15 +56,23 @@ int main(){
         switch (input){
         //Servidor    TCP hilos
         case 1: 
+            getPort(2020);
             runServer_tcp_t(port);
             break; 
         // servidor TCP procesos
-        case 2:
+        case 3:
+            getPort(2002);
             runServer_tcp_p(port);
             break;
-        // cliente TCP 
-        case 3: 
+        // cliente TCP procesos o hilos
+        case 2: //cliente hilos
+        case 4: //cliente procesos
         do{
+            if (input==2)
+                port=2020;
+            else 
+                port=2002;
+            getPort(port);
             printf("Ingresa el servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
@@ -80,12 +90,14 @@ int main(){
         pausa();
         break;
         //servidor udp
-        case 4:
+        case 5:
+            getPort(2002);
             server(port);
             break;
         //cliente udp
-        case 5:
+        case 6:
         do{
+            getPort(2002);
             printf("Ingresa el servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
@@ -101,11 +113,7 @@ int main(){
         }
         printf("Presiona enter para continuar...\n");
         pausa();
-        break;
-        //cambiar puerto
-        case 6: 
-            getPort(); 
-            break;
+        break; 
         //mostrar ayuda
         case 7:
             printf("***************AYUDA*************");
