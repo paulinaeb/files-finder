@@ -1,5 +1,6 @@
 #ifndef SERIALIZACION_H
 #define SERIALIZACION_H
+//librerias
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,23 +13,21 @@
 #include <fcntl.h>
 #include <pthread.h>
 #define MAX_CHAR 255
-typedef struct direccion
-{
+
+//definicion de las estructuras
+typedef struct direccion{
   char address[MAX_CHAR];
   struct direccion *next;
 } Direccion;
 
-typedef struct conexion
-{
+typedef struct conexion{
   int PORT;
   char IP_SERVER[255];
   char message[255];
 } Conexion;
 
-Direccion *newDireccion(char *address)
-{
+Direccion *newDireccion(char *address){
   Direccion *ptr = (Direccion *)malloc(sizeof(Direccion));
-
   if (ptr != NULL)
   {
     strcpy(ptr->address, address);
@@ -36,8 +35,7 @@ Direccion *newDireccion(char *address)
   }
 }
 
-Direccion *addDireccion(Direccion *listp, Direccion *newp)
-{
+Direccion *addDireccion(Direccion *listp, Direccion *newp){
   Direccion *p;
   if (listp == NULL)
     return newp;
@@ -47,8 +45,7 @@ Direccion *addDireccion(Direccion *listp, Direccion *newp)
   return listp;
 }
 
-int cleanBuffer()
-{
+int cleanBuffer(){
   int fdflags;
   fdflags = fcntl(STDIN_FILENO, F_GETFL, 0);
   fcntl(STDIN_FILENO, F_SETFL, fdflags | O_NONBLOCK);
@@ -57,9 +54,7 @@ int cleanBuffer()
   fcntl(STDIN_FILENO, F_SETFL, fdflags);
 }
 
-void pausa()
-{
-  
+void pausa(){
   while (getchar() != '\n')
     ;
 }

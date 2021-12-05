@@ -118,7 +118,6 @@ int main(){
         }
         input = mainMenu();
     }
-
     //Salir
     return EXIT_SUCCESS;
 }

@@ -48,33 +48,25 @@ void server(int PORT){
 
     /* (3) bucle principal. Pongo a recibir y responder mensajes a traves del socket*/
     printf(" Servidor en funcionamiento! \n");
-    while (1)
-    {
-
+    while (1){
         n = recvfrom(sock, buffer, TAMANO, 0, (struct sockaddr *)&from, &fromlen);
         if (n < 0){
             error_fatal("recvfrom");
         }
-            
-
         /*datagrama recibido*/
         buffer[n] = '\0'; /* para poder imprimirlo con prinft*/
         printf("Recibido en el servidor: %s", buffer);
-        
         /*enviar respuesta*/
         char *query = gfind(buffer);
         n = sendto(sock, query, strlen(query), 0, (struct sockaddr *)&from, fromlen);
         // n = sendto(sock, buffer, strlen(buffer), 0, (struct sockaddr *)&from, fromlen);
-        if (strncmp(buffer, "exit", 4) == 0)
-        {
+        if (strncmp(buffer, "exit", 4) == 0){
             close(sock);
             break;
         }
-
         if (n < 0){
             error_fatal("sendto");
         }
-            
     }
 }
 

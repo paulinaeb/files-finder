@@ -12,7 +12,6 @@
  */
 
 int fsize(char *filename){
-
     FILE *fp = popen(filename, "r");
     char caracter;
     int i = 0;
@@ -29,7 +28,6 @@ int fsize(char *filename){
     pclose(fp);
     return i;
 }
-
 /**
  * @brief 
  * @description: esta funcion retorna el archivo completo de las rutas de los archivos en la pc
