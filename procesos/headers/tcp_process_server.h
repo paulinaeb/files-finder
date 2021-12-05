@@ -28,14 +28,16 @@
 #define BUF_SIZE    500    // tamaño del buffer de recepcion y transmision de datos  
 #define BACKLOG     5      // cola de espera de clientes
 
+void *connection_handler(void *p_connfd){
 
-void connection_handler(Ip_connfd par){
+    int connfd = *((int*)p_connfd);
+    free(p_connfd);
 
-    int  len_rx = 0;                            // Tamaño de lo recibido y enviado, en bytes
+    int  len_rx, len_tx = 0;                    // Tamaño de lo recibido y enviado, en bytes
     char buff_tx[BUF_SIZE], buff_rx[BUF_SIZE];  // Buffer de trasnmision (tx) y recepcion (rx)
      
     // recibe la consulta en el buffer de recepcion	- read()	          
-    len_rx = read(par->connfd, buff_rx, sizeof(buff_rx));  
+    len_rx = read(connfd, buff_rx, sizeof(buff_rx));  
         
     if(len_rx == -1){
         fprintf(stderr, "[SERVER-error]: connfd cannot be read. %d: %s \n", errno, strerror( errno ));
@@ -45,12 +47,12 @@ void connection_handler(Ip_connfd par){
     else{  
         // realiza busqueda y guarda los resultados de la consulta en el buffer de trasnmision              
         char *buff_tx = gfind(buff_rx);	              
-	    
-        buff_rx[strlen(buff_rx)-1] = '\0';             
-        printf("[CLIENT %s]: Search for \"%s\"\n",parametros->ip,buff_rx);
+	    buff_rx[strlen(buff_rx)-1] = '\0';
+				             
+        printf("[CLIENT]: Search for \"%s\"\n",buff_rx);
 
         // envia respuesta - write()
-        write(par->connfd, buff_tx, strlen(buff_tx));     
+        write(connfd, buff_tx, strlen(buff_tx));     
 
         // imprime respuesta
         printf("[SERVER]: Results from \"%s\"\n",buff_rx);
@@ -58,7 +60,7 @@ void connection_handler(Ip_connfd par){
 
         // cerramos el socket con el cliente - close()
         printf("[SERVER]: socket closed \n\n");
-        close(par->connfd);
+        close(connfd);
     }  
 }
 
@@ -120,14 +122,13 @@ void runServer_tcp_p(int PORT){
             return; 
         } 
         else{
-            if((child_pid = fork()) == 0){
+            if((childpid = fork()) == 0){
 
-                Ip_connfd parametros;
-                strcpy(parametros.ip, client.sin_addr.s_addr);
-                parametros.connfd = connfd;
+                int *p_connfd = malloc(sizeof(int));
+                *p_connfd = connfd;
 
                 // manejador de conexiones                
-                connection_handler(parametros);   
+                connection_handler(p_connfd);   
 
             }                         
         }                  

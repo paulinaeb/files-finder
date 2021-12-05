@@ -1,10 +1,10 @@
 /*************************************************************************************/
 /* @file    main.c                                                                   */
-/* @brief   Menu principal de file finder TCP, utilizando hilos                      */       
+/* @brief   Menu principal de file finder TCP, utilizando hilos y procesos           */       
 /*************************************************************************************/
 
 //headers
-#include "headers/tcp_process_server.h"
+#include "headers/tcp_thread_server.h"
 #include "headers/tcp_thread_client.h"
 #include "headers/utilities.h"
 
@@ -28,27 +28,25 @@ int getPort()
 {
     char decition = 'x';
     int port = 2002;
-
     printf("Puerto por defecto(2002)\nDeseas cambiar el puerto? s/n ");
     scanf(" %c", &decition);
 
-    if (decition == 's' || decition == 'S'){
+    if (decition == 's' || decition == 'S')
+    {
         printf("Ingresa el puerto que quiere utilizar: ");
         scanf("%d", &port);
     }
-
     return port;
 }
 
-// programa principal
 int main(){
-    int  port;                  // puerto
+    int  port;                  //Puerto
 
-    char serv_addr[15];         // direccion IP de un servidor
-    Direccion *address = NULL;  // lista de direcciones IP de los servidores a buscar
-    char instruction[100];  	// consulta a preguntar a los servidores
+    char serv_addr[15];         //direccion IP de un servidor
+    Direccion *address = NULL;  //Lista de direcciones IP de los servidores a buscar
+    char instruction[100];  	//Consulta a preguntar a los servidores CHQUEAR TAMAÑP
      
-    int  input = mainMenu();    // seleccion de maquina cliente o servidor
+    int  input = mainMenu();    //Respuesta a consulta del menu principal
 	
     char d2 = 'x';
     
@@ -56,13 +54,13 @@ int main(){
     
         switch (input){
 
-        // servidor    
+        //Servidor    
         case 1:
             port=getPort();
-            runServer_tcp_p(port);
+            runServer_tcp_t(port);
             break;
         
-        // cliente
+        //Cliente
         case 2:
             port=getPort();
 
@@ -85,10 +83,11 @@ int main(){
                 runClient_tcp_t(port, address->address, instruction);
                 address = address->next;
             }
-            pausa();            
+
+            pausa();
             break;
 
-        // input incorrecto
+        //Input incorrecto
         default:
             printf("Opcion incorrecta\n");
             pausa();
@@ -97,6 +96,6 @@ int main(){
         input = mainMenu();
     }
 
-    // salir
+    //Salir
     return EXIT_SUCCESS;
 }

@@ -6,6 +6,7 @@
 #ifndef _utilities_h
 #define _utilities_h
 
+//unix
 #include <stdlib.h>
 #include <unistd.h> 
 #include <string.h>
@@ -13,13 +14,7 @@
 #include <stdio_ext.h>
 #include <fcntl.h>
 
-#define MAX_CHAR 20
-
-//Estructura para poder enviar la direcciones IP del cliente y el connfd a la funcion "connection_handler"
-typedef struct ip_connfd{
-  char    ip[MAX_CHAR];
-  int     connfd;
-} Ip_connfd;
+#define MAX_CHAR 15
 
 //Estructura para direcciones IP de servidores
 typedef struct direccion{
@@ -68,12 +63,12 @@ int cleanBuffer(){
   fcntl(STDIN_FILENO, F_SETFL, fdflags);
 }
 
-// "Presiona enter para continuar"
+// Presiona enter para continuar
 void pausa(){
 	printf("Press [ENTER] to continue\n");
 	char enter = 0;
 	while(getchar()!='\n'); // option TWO to clean stdin
-  getchar(); // wait for ENTER
+        getchar(); // wait for ENTER
 }
 
 #endif

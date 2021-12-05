@@ -1,6 +1,6 @@
 /*************************************************************************************/
 /* @file    tcp_thead_server.h                                                       */
-/* @brief   cliente tcp utilizando hilos                                             */
+/* @brief   cliente tcp utilizando sockets e hilos                                   */
 /*************************************************************************************/
 
 #ifndef _tcp_thead_client_h
@@ -28,10 +28,10 @@
 
 #define BUF_SIZE    500
 
-void *client_tcp_t(void* conex){
+void *client_tcp_t(void *args){
 
     char buf_rx[BUF_SIZE];                       // buffer de recepcion
-    Conexion *conexion = (Conexion *)conex;
+    Conexion *conexion = (Conexion *)args;
     int sockfd;
     struct sockaddr_in servaddr;
 
@@ -49,7 +49,7 @@ void *client_tcp_t(void* conex){
     // conexion con el socket del servidor - connect()
     memset(&servaddr, 0, sizeof(servaddr));
 	
-    servaddr.sin_family      = AF_INET; 
+    servaddr.sin_family      = AF_INET;
     servaddr.sin_addr.s_addr = inet_addr(conexion->IP_SERVER);
     servaddr.sin_port        = htons(conexion->PORT);
     
@@ -61,7 +61,8 @@ void *client_tcp_t(void* conex){
     else{
     	printf("[CLIENT]: connected to SERVER %s\n",conexion->IP_SERVER);    
     }
-  
+
+   
     // Envio de consulta y lectura de respuesta - write() / read()
     write(sockfd, conexion->message, sizeof(conexion->message));  
     read(sockfd, buf_rx, sizeof(buf_rx));
@@ -75,15 +76,15 @@ void *client_tcp_t(void* conex){
 }
 
 void runClient_tcp_t(int port, char *address, char *message){
-	
-    Conexion conexion;
+	Conexion conexion;
+
+	pthread_t hilo;
 
 	conexion.PORT = port;
 	strcpy(conexion.IP_SERVER, address);
 	strcpy(conexion.message, message);
 
-	pthread_t hilo;
 	pthread_create(&hilo, NULL, client_tcp_t, (void *)&conexion);
+	pthread_join(hilo, NULL);
 }
-
 #endif

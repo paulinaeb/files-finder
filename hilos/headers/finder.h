@@ -1,6 +1,6 @@
 /*************************************************************************************/
 /* @file    finder.h                                                                 */
-/* @brief   busqueda de archivos en el servidor                                      */
+/* @brief   busqueda de archivos en la maquina                                       */
 /*************************************************************************************/
 
 #ifndef _finder_h
@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-// funcion para copiar y contqar los caracteres de la busqueda
+char *out;
+
+//esta funcion para contar los caracteres de un archivo 
 int fsize(char *filename){
 
     FILE *fp = popen(filename, "r");
@@ -30,7 +32,7 @@ int fsize(char *filename){
     return i;
 }
 
-//funcion retorna el resultado de la busqueda realizada en el servidior
+//funcion retorna el archivo completo de las rutas de los archivos en la pc
 char *gfind(char *input){
     char *out;
     
