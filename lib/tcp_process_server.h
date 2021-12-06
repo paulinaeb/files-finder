@@ -43,8 +43,7 @@ void *connection_handler_process(void *p_connfd){
         // envia respuesta - write()
         write(connfd, buff_tx, strlen(buff_tx));     
         // imprime respuesta
-        printf("[SERVER]: Results from \"%s\"\n",buff_rx);
-        printf("%s",buff_tx);
+        printf("[SERVER]: Results from \"%s\"\n",buff_rx); 
         // cerramos el socket con el cliente - close()
         printf("[SERVER]: socket closed \n\n");
         close(connfd);
