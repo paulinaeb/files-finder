@@ -23,7 +23,7 @@
 #define BUF_SIZE    500
 
 void *client_tcp_t(void *args){
-    char buf_rx[BUF_SIZE];                       // buffer de recepcion
+    char buf_rx[BUF_SIZE]=" ";                       // buffer de recepcion
     Conexion *conexion = (Conexion *)args;
     int sockfd;
     struct sockaddr_in servaddr;
@@ -56,8 +56,9 @@ void *client_tcp_t(void *args){
    
     // Envio de consulta y lectura de respuesta - write() / read()
     write(sockfd, conexion->message, sizeof(conexion->message));  
-    read(sockfd, buf_rx, sizeof(buf_rx));
-    buf_rx[sizeof(buf_rx)]='\0';
+    int n = read(sockfd, buf_rx, BUF_SIZE);
+    //read(sockfd, buf_rx, sizeof(buf_rx));
+    buf_rx[n]='\0';
     printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
     // cerramos el socket con el servidor - close()
     printf("[CLIENT]: socket closed \n\n");
