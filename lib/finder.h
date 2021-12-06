@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
 
 /**
  * @brief 
@@ -41,21 +43,26 @@ char *gfind(char *input){
     char cad_search [6];
     for (int i = 0; i < sizeof(input); i++){
         if(i <6){
-            strcat(cad_search,tolower((unsigned char)input[i]));
+            strcat(cad_search,&input[i]);
         }
         else if(i >= 6 && i < 9){
-            strcat(cad_type_search,input[i]);
+            strcat(cad_type_search,&input[i]);
         }
     }
+
+    for (int i = 0; i < sizeof(cad_search); i++){
+        cad_search[i] = tolower(cad_search[i]);
+    }
+    
 
     if(strcmp(cad_search, "buscar") != 0){
         printf("Comando invalido");
     }else{
-        if(strcmp(cad_type_search, " ./")){
+        if(strcmp(cad_type_search, " ./") == 0){
             printf("Es por extension");
-        }else if(strcmp(cad_type_search, " $/")){
+        }else if(strcmp(cad_type_search, " $/") == 0){
             printf("Es normal");
-        }else if(strcmp(cad_type_search, " -/")){
+        }else if(strcmp(cad_type_search, " -/") == 0){
             printf("Es por nombre");
         }else{
             printf("Comando invalido");
