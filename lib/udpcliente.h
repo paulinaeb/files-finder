@@ -29,7 +29,7 @@ void *client(void *args){
 				 &len);
 	buffer[n] = '\0';
 	printf("Server %s response: \n%s\n", conexion->IP_SERVER, buffer);
-	printf("buffer size: %d",sizeof(buffer)); 
+	printf("buffer size: %ld",sizeof(buffer)); 
 	close(sockfd);
 }
 
