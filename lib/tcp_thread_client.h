@@ -42,8 +42,7 @@ void *client_tcp_t(void *args){
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family      = AF_INET;
     servaddr.sin_addr.s_addr = inet_addr(conexion->IP_SERVER);
-    servaddr.sin_port        = htons(conexion->PORT);
-    printf("ip: %d",servaddr.sin_addr.s_addr);
+    servaddr.sin_port        = htons(conexion->PORT); 
     if (connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) != 0){ 
         printf("[SERVER-error] connection with the server failed\n");  
         pausa();
@@ -58,6 +57,7 @@ void *client_tcp_t(void *args){
     int n = read(sockfd, buf_rx, BUF_SIZE);
     //read(sockfd, buf_rx, sizeof(buf_rx));
     buf_rx[n]='\0';
+    printf("valor de n: %d", n);
     if (n==0){
         printf("\nNo se encontro el archivo en el servidor de IP: %s",conexion->IP_SERVER);
     }
