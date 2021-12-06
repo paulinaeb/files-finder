@@ -51,7 +51,6 @@ void *client_tcp_t(void *args){
     } 
     else{
     	printf("[CLIENT]: connected to SERVER %s\n",conexion->IP_SERVER); 
-           
     }
    
     // Envio de consulta y lectura de respuesta - write() / read()
@@ -60,6 +59,7 @@ void *client_tcp_t(void *args){
     //read(sockfd, buf_rx, sizeof(buf_rx));
     buf_rx[n]='\0';
     printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
+       
     // cerramos el socket con el servidor - close()
     printf("[CLIENT]: socket closed \n\n");
     close(sockfd); 
