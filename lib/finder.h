@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
+char file[100];
 
 /**
  * @brief 
@@ -37,37 +38,62 @@ int fsize(char *filename){
  * @return char* 
  */
 
-char *gfind(char *input){
-    int type_search;
-    char cad_type_search [3];
-    char cad_search [6];
-    for (int i = 0; i < sizeof(input); i++){
-        if(i <6){
-            strcat(cad_search,&input[i]);
-        }
-        else if(i >= 6 && i < 9){
-            strcat(cad_type_search,&input[i]);
-        }
-    }
+void filesSearch(char *aux){
+        int tamanio = strlen(aux) - 10;
+        int inicio = 9;
+        strncpy(file, aux + inicio, tamanio);
+        printf("File: %s\n",file);
+}
 
-    for (int i = 0; i < sizeof(cad_search); i++){
+char *gfind(char *input){  
+    char *aux =input;
+    char cad_type_search [3]; //" ./"
+    char cad_search [6];  //buscar
+    int i=0;
+    int j=0;
+    while(*input != '\0'){
+        if(i<6){
+            cad_search[i]=*input;
+            i++;  
+            input++;
+        }
+        if(i>=6){
+            cad_type_search[j]=*input;
+            j++;
+            input++;
+        }
+        if (j==3){
+            break;
+        }
+    } 
+    printf("\nsearch: %s", cad_search); 
+    printf("\nsearch 2: %s\n", cad_type_search); 
+
+    for (int i = 0; i < strlen(cad_search); i++){
         cad_search[i] = tolower(cad_search[i]);
     }
-    
+
+    for (int i = 0; i < strlen(cad_type_search); i++){
+        cad_type_search[i] = tolower(cad_type_search[i]);
+    }
 
     if(strcmp(cad_search, "buscar") != 0){
         printf("Comando invalido");
     }else{
-        if(strcmp(cad_type_search, " ./") == 0){
+        if(strcmp(cad_type_search, " ./buscar") == 0){
+            filesSearch(aux);
             printf("Es por extension");
-        }else if(strcmp(cad_type_search, " $/") == 0){
+        }else if(strcmp(cad_type_search, " $/buscar") == 0){
+            filesSearch(aux);
             printf("Es normal");
-        }else if(strcmp(cad_type_search, " -/") == 0){
+        }else if(strcmp(cad_type_search, " -/buscar") == 0){
+            filesSearch(aux);
             printf("Es por nombre");
         }else{
             printf("Comando invalido");
         }
     }
+    
     
     char*out;
     char *FIND = "find /home -iname ";
