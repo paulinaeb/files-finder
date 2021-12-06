@@ -58,8 +58,11 @@ void *client_tcp_t(void *args){
     int n = read(sockfd, buf_rx, BUF_SIZE);
     //read(sockfd, buf_rx, sizeof(buf_rx));
     buf_rx[n]='\0';
-    printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
-       
+    if (n==0){
+        printf("\nNo se encontro el archivo en el servidor de IP: %s",conexion->IP_SERVER);
+    }
+    else 
+        printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
     // cerramos el socket con el servidor - close()
     printf("[CLIENT]: socket closed \n\n");
     close(sockfd); 
