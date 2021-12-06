@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "finder.h"
+#include "finder.h" 
 
 // #define PORT 2002
 #define TAMANO 1024
@@ -46,9 +46,9 @@ void server(int PORT){
         error_fatal("binding");
     fromlen = sizeof(from);
 
-    /* (3) bucle principal. Pongo a recibir y responder mensajes a traves del socket*/
-    printf(" Servidor en funcionamiento! \n");
-    while (1){
+    /* (3) bucle principal. Pongo a recibir y responder mensajes a traves del socket*/ 
+    printf("\n[SERVER]: Listening on SERV_PORT %d \n\n", ntohs(server.sin_port)); 
+    while (1){ 
         n = recvfrom(sock, buffer, TAMANO, 0, (struct sockaddr *)&from, &fromlen);
         if (n < 0){
             error_fatal("recvfrom");
@@ -66,7 +66,7 @@ void server(int PORT){
         }
         if (n < 0){
             error_fatal("sendto");
-        }
+        }   
     }
 }
 

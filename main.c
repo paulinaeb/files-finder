@@ -67,12 +67,12 @@ int main(){
         // cliente TCP procesos o hilos
         case 2: //cliente hilos
         case 4: //cliente procesos
-        do{
-            if (input==2)
+        if (input==2)
                 port=2020;
-            else 
-                port=2002;
-            getPort(port);
+        else 
+            port=2002;
+        getPort(port);
+        do{
             printf("Ingresa el servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
@@ -87,6 +87,7 @@ int main(){
             runClient_tcp_t(port, address->address, instruction);
             address = address->next;
         }
+        printf("\n\nPresiona enter para volver al menu...\n");
         pausa();
         break;
         //servidor udp
@@ -96,8 +97,8 @@ int main(){
             break;
         //cliente udp
         case 6:
+        getPort(2002);
         do{
-            getPort(2002);
             printf("Ingresa el servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
@@ -111,12 +112,14 @@ int main(){
             runClient(port, address->address, instruction);
             address = address->next;
         }
-        printf("Presiona enter para continuar...\n");
+        printf("\n\nPresiona enter para volver al menu...\n");
         pausa();
         break; 
         //mostrar ayuda
         case 7:
             printf("***************AYUDA*************");
+            printf("\n\nPresiona enter para volver al menu...\n");
+            pausa();
             break;
         //Input incorrecto
         default:
