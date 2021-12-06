@@ -22,10 +22,8 @@ void *client(void *args){
 	char buffer[MAXLINE];
 	socklen_t n, len;
 	sendto(sockfd, (const char *)conexion->message, strlen(conexion->message),
-		   MSG_CONFIRM, (const struct sockaddr *)&servaddr,
-		   sizeof(servaddr));
-	printf("message sent.\n");
-
+	MSG_CONFIRM, (const struct sockaddr *)&servaddr,
+   sizeof(servaddr)); 
 	n = recvfrom(sockfd, (char *)buffer, MAXLINE,
 				 MSG_WAITALL, (struct sockaddr *)&servaddr,
 				 &len);

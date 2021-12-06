@@ -73,7 +73,7 @@ int main(){
             port=2002;
         getPort(port);
         do{
-            printf("Ingresa el servidor para la conexion: ");
+            printf("Ingresa la direccion IP del servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
             printf("Desea agregar otra direccion? s/n ");
@@ -99,7 +99,7 @@ int main(){
         case 6:
         getPort(2002);
         do{
-            printf("Ingresa el servidor para la conexion: ");
+            printf("Ingresa la direccion IP del servidor para la conexion: ");
             scanf("%s", serv_addr);
             address = addDireccion(address, newDireccion(serv_addr));
             printf("Desea agregar otra direccion? s/n ");
