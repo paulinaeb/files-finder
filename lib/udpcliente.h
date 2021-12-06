@@ -29,6 +29,10 @@ void *client(void *args){
 				 &len);
 	buffer[n] = '\0';
 	printf("Server %s response: \n%s\n", conexion->IP_SERVER, buffer);
+	printf("buffer: %s",buffer);
+	if (sizeof(buffer)==0){
+		printf("\nes cero");
+	}
 	close(sockfd);
 }
 
