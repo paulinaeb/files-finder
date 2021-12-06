@@ -28,8 +28,13 @@ void *client(void *args){
 				 MSG_WAITALL, (struct sockaddr *)&servaddr,
 				 &len);
 	buffer[n] = '\0';
-	printf("Server %s response: \n%s\n", conexion->IP_SERVER, buffer);
-	printf("buffer size: %ld",sizeof(buffer)); 
+	if (n==0){
+		printf("\nNo se encontro el archivo en el servidor de IP: %s",conexion->IP_SERVER);
+	}
+	else{
+		printf("Server %s response: \n%s\n", conexion->IP_SERVER, buffer); 
+		
+	}
 	close(sockfd);
 }
 
