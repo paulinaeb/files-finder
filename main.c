@@ -81,7 +81,7 @@ int main(){
         } 
         while (decition == 's' || decition == 'S');  //VALIDAR
         cleanBuffer();
-        printf("\nIngresa el nombre del archivo/carpeta que deseas buscar: ");
+        printf("\nIngresa el comando de busqueda : ");
         fgets(instruction, sizeof(instruction), stdin);
         while (address != NULL){
             runClient_tcp_t(port, address->address, instruction);
