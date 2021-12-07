@@ -39,18 +39,22 @@ int fsize(char *filename){
  */
 
 void filesSearch(char *aux){
-        int tamanio = strlen(aux) - 10;
-        int inicio = 9;
+        int tamanio = strlen(aux) - 3;
+        int inicio = 3;
         strncpy(file, aux + inicio, tamanio);
-        printf("File: %s\n",file);
+     //   printf("File:%s\n",file);
 }
 
 char *gfind(char *input){  
+    printf("Muestra:%s \n",input);
     char *aux =input;
-    char cad_type_search [3]; //" ./"
-    char cad_search [6];  //buscar
-    int i=0;
-    int j=0;
+    char *out;
+    char cad_type_search [3]=""; //" ./"
+    char cad_search [6]=" ";  //buscar
+    int i,j=0; 
+    int flag=0;
+    char *FIND;
+    char aux_file[100]=" ";
     while(*input != '\0'){
         if(i<6){
             cad_search[i]=*input;
@@ -58,49 +62,76 @@ char *gfind(char *input){
             input++;
         }
         if(i>=6){
-            cad_type_search[j]=*input;
-            j++;
-            input++;
-        }
-        if (j==3){
-            break;
-        }
-    } 
-    printf("\nsearch: %s", cad_search); 
-    printf("\nsearch 2: %s\n", cad_type_search); 
-
+        	break;
+        } 
+    }  
+    printf("Muestra 2:%s \n",input);
+    int tamanio = 3;
+    int inicio = 0;
+    char cadena[100] = "";
+    strncpy(cadena, input + inicio, tamanio);
+    printf("Muestra 3:%s \n",input);
+ 
     for (int i = 0; i < strlen(cad_search); i++){
         cad_search[i] = tolower(cad_search[i]);
     }
 
-    for (int i = 0; i < strlen(cad_type_search); i++){
-        cad_type_search[i] = tolower(cad_type_search[i]);
-    }
-
     if(strcmp(cad_search, "buscar") != 0){
-        printf("Comando invalido");
+        printf("Comando invalido\n");
+        printf("%s\n", cad_search);
+        printf("1\n");
+    return "\nComando invalido\n";
     }else{
-        if(strcmp(cad_type_search, " ./buscar") == 0){
-            filesSearch(aux);
-            printf("Es por extension");
-        }else if(strcmp(cad_type_search, " $/buscar") == 0){
-            filesSearch(aux);
-            printf("Es normal");
-        }else if(strcmp(cad_type_search, " -/buscar") == 0){
-            filesSearch(aux);
-            printf("Es por nombre");
-        }else{
-            printf("Comando invalido");
+        if(strcmp(cadena, " ./") == 0){
+            flag=1;
+            filesSearch(input);
+            printf("Busqueda por extension\n");
+            int j=0;
+            strcat(file, "\""); 
+            for (int i=0;i<strlen(file);i++){
+            	if (file[i]!='\n'){ 
+            	    aux_file[j]=file[i];
+            	    j++;
+            	}
+            }
+            aux_file[j]='\0'; 
+            FIND = "find /home -name \"*.";
+        }
+        else if(strcmp(cadena, " $/") == 0){
+            filesSearch(input);
+            printf("Busqueda por nombre y extension\n"); //nombre y extension
+            FIND = "find /home -iname ";
+        }
+        else if(strcmp(cadena, " -/") == 0){
+            filesSearch(input);
+            printf("Busqueda de archivos vacios\n"); 
+            FIND = "find /home -type f -";
+        }
+        else if(strcmp(cadena, " #/") == 0){
+            filesSearch(input);
+            printf("Busqueda de directorios vacios\n"); 
+            FIND = "find /home -type d -";
+        }
+        else{
+            printf("Comando invalido\n");
+            printf("2\n");
+            return "\nComando invalido\n";
         }
     }
-    
-    
-    char*out;
-    char *FIND = "find /home -iname ";
-    char *query = (char *)malloc(sizeof(input) * sizeof(input) + 1);
+     
+    char *query;
+    if (flag==1)
+    	query = (char *)malloc(sizeof(aux_file) * sizeof(aux_file) + 1);
+    else 
+    	query = (char *)malloc(sizeof(file) * sizeof(file) + 1);
+    	
     strcat(query, FIND);
-    strcat(query, input);
+    if (flag==1)
+    	strcat(query, aux_file);
+    else 
+    	strcat(query, file);
     out = malloc(sizeof(char) * fsize(query)); 
+    printf("\nquery:%s",query);
     return out;
 }
 

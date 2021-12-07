@@ -106,7 +106,7 @@ int main(){
            scanf(" %c", &decition);
         } while (decition == 's' || decition == 'S');
         cleanBuffer();
-        printf("Ingresa el nombre de el archivo/carpeta que deseas buscar: ");
+        printf("Ingresa el comando de busqueda: ");
         fgets(instruction, sizeof(instruction), stdin);
         while (address != NULL){
             runClient(port, address->address, instruction);
