@@ -46,7 +46,7 @@ void filesSearch(char *aux){
 }
 
 char *gfind(char *input){  
-    
+    printf("Muestra:%s \n",input);
     char *aux =input;
     char *out;
     char cad_type_search [3]=""; //" ./"
@@ -55,11 +55,8 @@ char *gfind(char *input){
     int flag=0;
     char *FIND;
     char aux_file[100]=" ";
-    printf("Muestra input:%s \n",input);
-    printf("Muestra aux:%s \n",aux);
     while(*input != '\0'){
         if(i<6){
-            printf("\nchar %c",*input);
             cad_search[i]=*input;
             i++;  
             input++;
