@@ -29,7 +29,7 @@ void *client(void *args){
 				 &len);
 	buffer[n] = '\0';
 	if (n==0){
-		printf("\nNo se encontro el archivo en el servidor de IP: %s",conexion->IP_SERVER);
+		printf("\nNo se hallaron resultados en el servidor de IP: %s",conexion->IP_SERVER);
 	}
 	else{
 		printf("Server %s response: \n%s\n", conexion->IP_SERVER, buffer); 

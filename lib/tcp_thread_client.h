@@ -58,7 +58,7 @@ void *client_tcp_t(void *args){
     //read(sockfd, buf_rx, sizeof(buf_rx));
     buf_rx[n]='\0'; 
     if (n==0){
-        printf("\nNo se encontro el archivo en el servidor de IP: %s",conexion->IP_SERVER);
+        printf("\nNo se hallaron resultados en el servidor de IP: %s",conexion->IP_SERVER);
     }
     else {
         printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
