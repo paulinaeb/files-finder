@@ -51,7 +51,7 @@ int main(){
     char instruction[1024];  	//Consulta a preguntar a los servidores 
     int  input = mainMenu();    //Respuesta a consulta del menu principal
     char decition = ' ';
-    
+    char resp=' ';
     while (input != 8){ 
         switch (input){
         //Servidor    TCP hilos
@@ -116,11 +116,41 @@ int main(){
         pausa();
         break; 
         //mostrar ayuda
-        case 7:
-            printf("***************AYUDA*************");
-            printf("\n\nPresiona enter para volver al menu...\n");
-            pausa();
-            break;
+        case 7:  
+            system("clear"); 
+            printf("\n*******************************************\n");
+            printf("************ Ayuda Files Finder ************\n");
+            printf("*******************************************\n");
+            printf("\n Files finder es un buscador de archivos personalizado inspirado en\n");
+            printf("la funcionalidad del comando FIND en Linux. Ademas, permite crear conexiones\n");
+            printf("con distintos servidores desde un cliente a fin de realizar una misma busqueda\n");
+            printf("en cada servidor y devolver un resultado. \n\nLos protocolos de conexion permitidos\n");
+            printf("son TCP (implementado con hilos), TCP (implementado con procesos) y UDP. Cada una de\n");
+            printf("ellas tendra un puerto asignado por defecto. En caso de querer cambiarlo, el usuario\n");
+            printf("podra hacerlo justo despues de haber seleccionado su opcion preferida mostrada por el\n");
+            printf("menu principal. Desde el cliente seleccionado se pediran las direcciones IP de los\n");
+            printf("servidores donde se desea realizar la busqueda. Ademas, el buscador tambien es capaz\n");
+            printf("de buscar en la PC del cliente, en caso de que el usuario asi lo desee. \n\n");
+            printf("Una vez establecida la conexion, el usuario podra realizar las busquedas, segun el\n");
+            printf("comando indicado. Las reglas estan establecidas de la siguiente manera:\n\n");
+            printf("1. Busqueda de todos los archivos de una extension determinada\n");
+            printf("Comando a utilizar: buscar ./[extension]\n");
+            printf("Ejemplo: buscar ./h\n");
+            printf("El comando anterior traera la ubicacion de tdos los archivos de extension .h\n\n");
+            printf("2. Busqueda de archivos con extension o directorios\n");
+            printf("Comando a utilizar: buscar $/[nombre de archivo+su extension o nombre del directorio]\n");
+            printf("Ejemplo 1: buscar $/files-finder\n");
+            printf("El comando anterior traera la ubicacion de todos los directorios files-finder\n");
+            printf("Ejemplo 2: buscar $/main.c\n");
+            printf("El comando anterior traera la ubicacion de todos los archivos llamados main.c\n\n");
+            printf("3. Busqueda de archivos vacios\n");
+            printf("Comando a utilizar: buscar -/empty\n");
+            printf("4. Busqueda de directorios vacios\n");
+            printf("Comando a utilizar: buscar #/empty\n");
+            printf("\nPresione s+Enter para volver al menu\n");
+            scanf("\nRespuesta: %c",&resp);
+            if (resp=='s')    
+                break; 
         //Input incorrecto
         default:
             printf("Opcion incorrecta\n");
