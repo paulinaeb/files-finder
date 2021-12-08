@@ -45,18 +45,19 @@ void filesSearch(char *aux){
      //   printf("File:%s\n",file);
 }
 
-char *gfind(char *input){  
-    printf("Muestra:%s \n",input);
+char *gfind(char *input){   
     char *aux =input;
     char *out;
     char cad_type_search [3]=""; //" ./"
     char cad_search [6]=" ";  //buscar
-    int i,j=0; 
+    int j=0;
+    int i=0; 
     int flag=0;
     char *FIND;
     char aux_file[100]=" ";
-    while(*input != '\0'){
-        if(i<6){
+    
+    while(*input != '\0'){ 
+        if(i<6){ 
             cad_search[i]=*input;
             i++;  
             input++;
@@ -64,28 +65,24 @@ char *gfind(char *input){
         if(i>=6){
         	break;
         } 
-    }  
-    printf("Muestra 2:%s \n",input);
+    }   
     int tamanio = 3;
     int inicio = 0;
     char cadena[100] = "";
-    strncpy(cadena, input + inicio, tamanio);
-    printf("Muestra 3:%s \n",input);
+    strncpy(cadena, input + inicio, tamanio); 
  
     for (int i = 0; i < strlen(cad_search); i++){
         cad_search[i] = tolower(cad_search[i]);
     }
 
     if(strcmp(cad_search, "buscar") != 0){
-        printf("Comando invalido\n");
-        printf("%s\n", cad_search);
-        printf("1\n");
+        printf("Comando invalido\n"); 
     return "\nComando invalido\n";
     }else{
         if(strcmp(cadena, " ./") == 0){
             flag=1;
             filesSearch(input);
-            printf("Busqueda por extension\n");
+            printf("\n****Busqueda por extension****\n");
             int j=0;
             strcat(file, "\""); 
             for (int i=0;i<strlen(file);i++){
@@ -99,22 +96,21 @@ char *gfind(char *input){
         }
         else if(strcmp(cadena, " $/") == 0){
             filesSearch(input);
-            printf("Busqueda por nombre y extension\n"); //nombre y extension
+            printf("\n****Busqueda por nombre+extension o carpetas****\n"); //nombre y extension
             FIND = "find /home -iname ";
         }
         else if(strcmp(cadena, " -/") == 0){
             filesSearch(input);
-            printf("Busqueda de archivos vacios\n"); 
+            printf("\n****Busqueda de archivos vacio****s\n"); 
             FIND = "find /home -type f -";
         }
         else if(strcmp(cadena, " #/") == 0){
             filesSearch(input);
-            printf("Busqueda de directorios vacios\n"); 
+            printf("\n****Busqueda de directorios vacios****\n"); 
             FIND = "find /home -type d -";
         }
         else{
-            printf("Comando invalido\n");
-            printf("2\n");
+            printf("Comando invalido\n"); 
             return "\nComando invalido\n";
         }
     }
@@ -131,7 +127,6 @@ char *gfind(char *input){
     else 
     	strcat(query, file);
     out = malloc(sizeof(char) * fsize(query)); 
-    printf("\nquery:%s",query);
     return out;
 }
 

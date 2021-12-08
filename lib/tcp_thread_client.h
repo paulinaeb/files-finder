@@ -35,7 +35,7 @@ void *client_tcp_t(void *args){
         return NULL;
     } 
     else{
-        printf("\n[CLIENT]: Socket successfully created\n"); 
+        printf("[CLIENT]: Socket successfully created\n"); 
     }
 
     // conexion con el socket del servidor - connect()
@@ -55,16 +55,15 @@ void *client_tcp_t(void *args){
     // Envio de consulta y lectura de respuesta - write() / read()
     write(sockfd, conexion->message, sizeof(conexion->message));  
     int n = read(sockfd, buf_rx, BUF_SIZE);
-    //read(sockfd, buf_rx, sizeof(buf_rx));
     buf_rx[n]='\0'; 
     if (n==0){
         printf("\nNo se hallaron resultados en el servidor de IP: %s",conexion->IP_SERVER);
     }
     else {
-        printf("[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
+        printf("\n[SERVER %s] response: \n%s",conexion->IP_SERVER,buf_rx);
     }
     // cerramos el socket con el servidor - close()
-    printf("[CLIENT]: socket closed \n\n");
+    printf("\n[CLIENT]: socket closed \n\n");
     close(sockfd); 
 }
 

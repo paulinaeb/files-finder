@@ -9,6 +9,7 @@
 #include "lib/tcp_process_server.h"
 #include "lib/udpserver.h"
 #include "lib/udpcliente.h"
+#include "lib/finder.h"
 
 //variable global
 int port=2002;
@@ -49,9 +50,12 @@ int main(){
     char serv_addr[20];         //direccion IP de un servidor
     Direccion *address = NULL;  //Lista de direcciones IP de los servidores a buscar
     char instruction[1024];  	//Consulta a preguntar a los servidores 
+    char* inst=instruction;
+    char* rlocal;
     int  input = mainMenu();    //Respuesta a consulta del menu principal
     char decition = ' ';
     char resp=' ';
+    char buscarlocal=' ';
     while (input != 8){ 
         switch (input){
         //Servidor    TCP hilos
@@ -80,9 +84,16 @@ int main(){
             scanf(" %c", &decition);
         } 
         while (decition == 's' || decition == 'S');  //VALIDAR
+        printf("Desea buscar tambien en la PC local? s/n ");
+        scanf(" %c",&buscarlocal);
         cleanBuffer();
+        system("clear"); 
         printf("\nIngresa el comando de busqueda : ");
         fgets(instruction, sizeof(instruction), stdin);
+        if (buscarlocal=='s' || buscarlocal=='S'){
+        	rlocal=gfind(inst);
+        	printf("\nBusqueda local:\n%s\n",rlocal);
+        }
         while (address != NULL){
             runClient_tcp_t(port, address->address, instruction);
             address = address->next;
@@ -105,9 +116,16 @@ int main(){
             printf("Desea agregar otra direccion? s/n ");
            scanf(" %c", &decition);
         } while (decition == 's' || decition == 'S');
+        printf("Desea buscar tambien en la PC local? s/n ");
+        scanf(" %c",&buscarlocal);
         cleanBuffer();
+        system("clear");
         printf("Ingresa el comando de busqueda: ");
         fgets(instruction, sizeof(instruction), stdin);
+        if (buscarlocal=='s' || buscarlocal=='S'){
+        	rlocal=gfind(inst);
+        	printf("\nBusqueda local:\n%s\n",rlocal);
+        }
         while (address != NULL){
             runClient(port, address->address, instruction);
             address = address->next;
