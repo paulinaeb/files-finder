@@ -10,3 +10,14 @@ Implementación de un servicio de búsqueda de archivos en múltiples máquinas 
 *Implementado con hilos (en el puerto 2020) <br />
 En todos los casos los clientes se implementaron con hilos para disminuir el tiempo de búsqueda, así mismo se ofrecen opciones para cambiar el puerto del servicio por defecto y obtener ayuda del comando.
 El desarrollo se desarrolló en un entorno Linux usando los API de socket y el lenguaje de programación C, y definiendo los diferentes protocolos de aplicación, tanto en UDP como en TCP.
+
+#Para compilar el archivo principal se debe correr en la terminal las siguientes instrucciones
+
+usando el comando completo: gcc main.c -o main -l pthread<br />
+
+usando make: make
+
+#luego para ejecutarlo
+
+./main
+
